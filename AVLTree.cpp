@@ -77,7 +77,7 @@ bool AVLTree::removeNode(AVLNode*& current){
     }
 
     AVLNode* toDelete = current;
-    auto nChildren = current->numChildren();
+
     if (current->isLeaf()) {
         // case 1 we can delete the node
         current = nullptr;
