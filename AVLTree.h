@@ -4,7 +4,9 @@
 
 #ifndef AVLTREE_H
 #define AVLTREE_H
+#include <optional>
 #include <string>
+#include <vector>
 
 using namespace std;
 
@@ -23,22 +25,50 @@ protected:
         AVLNode* left;
         AVLNode* right;
 
-        // 0, 1 or 2
-        size_t numChildren() const;
+        // 0, 1, or 2
+        inline size_t numChildren() const {
+            return (left != nullptr) + (right != nullptr);
+        }
+
         // true or false
-        bool isLeaf() const;
+        inline bool isLeaf() const {
+            return left == nullptr && right == nullptr;
+        }
+
         // number of hops to deepest leaf node
-        size_t getHeight() const;
-
-
+        inline size_t getHeight() const {
+            return height;
+        }
     };
 
 public:
 
 
+    AVLTree();
 
+    ~AVLTree();
 
-    private:
+    AVLTree(const AVLTree& other);
+
+    AVLTree& operator=(const AVLTree& other);
+
+    bool insert(const std::string& key, size_t value);
+    bool remove(const std::string& key);
+    bool contains(const std::string& key) const;
+    std::optional<size_t> get(const std::string& key) const;
+    size_t& operator[](const std::string& key);
+
+    std::vector<size_t> findRange(const std::string& lowKey,
+                                  const std::string& highKey) const;
+
+    std::vector<std::string> keys() const;
+
+    size_t size() const;
+    size_t getHeight() const;
+
+    friend std::ostream& operator<<(std::ostream& os, const AVLTree& avlTree);
+
+private:
     AVLNode* root;
 
     /* Helper methods for remove */
