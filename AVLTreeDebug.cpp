@@ -12,40 +12,54 @@ using namespace std;
 
 
 int main() {
-    // AVLTree tree;
-    // bool insertResult;
-    // insertResult = tree.insert("F", 'F');
-    // insertResult = tree.insert("F", 'F'); // false, no duplicates allowed
-    // insertResult = tree.insert("K", 'K');
-    // insertResult = tree.insert("X", 'X');// single rotate left
-    // cout << endl << endl;
-    // cout << tree << endl;
-    //
-    // insertResult = tree.insert("C", 'C');
-    // insertResult = tree.insert("A", 'A'); // single rotate right
-    // cout << endl << endl;
-    // cout << tree << endl;
-    //
-    // insertResult = tree.insert("D", 'D'); // double rotate right
-    // cout << endl << endl;
-    // cout << tree << endl;
-    //
-    // insertResult = tree.insert("R", 'R'); // double rotate left
-    // cout << endl << endl;
-    // cout << tree << endl;
-    //
-    // insertResult = tree.insert("V", 'V');
-    // insertResult = tree.insert("A", 'A'); // false, duplicate
-    // insertResult = tree.insert("Z", 'Z');
-    // insertResult = tree.insert("M", 'M');
-    // insertResult = tree.insert("D", 'D'); // false, duplicate
-    // cout << endl << endl;
-    // cout << tree << endl;
-    //
-    // // size and getHeight
-    // cout << "tree size: " << tree.size() << endl; // 10
-    // cout << "tree height: " << tree.getHeight() << endl; // 3
-    // cout << endl;
+    AVLTree tree;
+    bool insertResult;
+    insertResult = tree.insert("F", 'F');
+    insertResult = tree.insert("F", 'F'); // false, no duplicates allowed
+    insertResult = tree.insert("K", 'K');
+    insertResult = tree.insert("X", 'X');// single rotate left
+    cout << endl << endl;
+    cout << tree << endl;
+
+    insertResult = tree.insert("C", 'C');
+    insertResult = tree.insert("A", 'A'); // single rotate right
+    cout << endl << endl;
+    cout << tree << endl;
+
+    insertResult = tree.insert("D", 'D'); // double rotate right
+    cout << endl << endl;
+    cout << tree << endl;
+
+    insertResult = tree.insert("R", 'R'); // double rotate left
+    cout << endl << endl;
+    cout << tree << endl;
+
+    insertResult = tree.insert("V", 'V');
+    insertResult = tree.insert("A", 'A'); // false, duplicate
+    insertResult = tree.insert("Z", 'Z');
+    insertResult = tree.insert("M", 'M');
+    insertResult = tree.insert("D", 'D'); // false, duplicate
+    cout << endl << endl;
+    cout << tree << endl;
+
+    // size and getHeight
+    cout << "tree size: " << tree.size() << endl; // 10
+    cout << "tree height: " << tree.getHeight() << endl; // 3
+    cout << "tree balance: " << tree.getBalance() << endl; // 3
+    cout << endl;
+
+/*
+                {Z: 90}
+        {X: 88}
+                {V: 86}
+{R: 82}
+                        {M: 77}
+                {K: 75}
+        {F: 70}
+                        {D: 68}
+                {C: 67}
+                        {A: 65}
+*/
 //
 //    // contains
 //    bool containsResult;

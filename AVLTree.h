@@ -42,8 +42,6 @@ protected:
     };
 
 public:
-
-
     AVLTree();
 
     ~AVLTree();
@@ -65,11 +63,33 @@ public:
 
     size_t size() const;
     size_t getHeight() const;
+    size_t getBalance() const;
 
     friend std::ostream& operator<<(std::ostream& os, const AVLTree& avlTree);
 
 private:
-    AVLNode* root;
+    AVLNode* root = nullptr;
+    size_t treeSize = 0;
+
+    // Get a node's height (max of its left and right heights)
+    static int nodeHeight(AVLNode* node);
+
+    // helper for operator<< that recurses through and prints stuff sideways
+    void printTree(std::ostream& os, const AVLNode* node, int indent) const;
+
+    /* Helper methods for insert */
+
+    // overlaoded insert that does the recursive insert
+    AVLNode* insert(AVLNode*& node, const std::string& key, size_t value);
+
+    // get a node's balance
+    int getBalance(const AVLNode* node) const;
+
+    // rotate the tree right
+    AVLTree::AVLNode* rotateRight(AVLNode*& y);
+
+    // rotate the tree left
+    AVLTree::AVLNode* rotateLeft(AVLNode*& x);
 
     /* Helper methods for remove */
     // this overloaded remove will do the recursion to remove the node
@@ -78,7 +98,6 @@ private:
     bool removeNode(AVLNode*& current);
     // You will implement this, but it is needed for removeNode()
     void balanceNode(AVLNode*& node);
-
 };
 
 #endif //AVLTREE_H
