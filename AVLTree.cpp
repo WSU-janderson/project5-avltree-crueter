@@ -38,8 +38,7 @@ bool AVLTree::remove(const std::string& key)
 
 bool AVLTree::contains(const std::string& key) const
 {
-    // TODO
-    return false;
+    return contains(root, key);
 }
 
 std::optional<size_t> AVLTree::get(const std::string& key) const
@@ -112,6 +111,25 @@ void AVLTree::printTree(std::ostream& os, const AVLNode* node, int indent) const
 
     // Then left child
     printTree(os, node->left, indent + 8);
+}
+
+bool AVLTree::contains(const AVLNode* node, const string& key) const {
+    // end of tree = does not exist :(
+    if (node == nullptr) {
+        return false;
+    }
+
+    // key found. :)
+    if (key == node->key) {
+        return true;
+    }
+
+    // traversal
+    if (key < node->key) {
+        return contains(node->left, key);
+    } else {
+        return contains(node->right, key);
+    }
 }
 
 /* Insert helpers */

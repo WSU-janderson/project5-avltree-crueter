@@ -61,10 +61,12 @@ int main() {
                         {A: 65}
 */
 //
-//    // contains
-//    bool containsResult;
-//    containsResult = tree.contains("A"); // true
-//    containsResult = tree.contains("N"); // false
+    // contains
+    bool containsResult;
+    containsResult = tree.contains("A"); // true
+    cout << containsResult << endl;
+    containsResult = tree.contains("N"); // false
+    cout << containsResult << endl;
 //
 //    // get
 //    optional<int> getResult;

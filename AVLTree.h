@@ -50,9 +50,24 @@ public:
 
     AVLTree& operator=(const AVLTree& other);
 
+    /**
+     * @brief insert Insert a new key-value pair.
+     * Duplicate values are ignored.
+     * @param key The key to insert.
+     * @param value The value to insert.
+     * @return True iff a new node was created, false if the key is a duplicate.
+     */
     bool insert(const std::string& key, size_t value);
+
     bool remove(const std::string& key);
+
+    /**
+     * @brief contains Check whether a given key exists in the tree.
+     * @param key The key to search for.
+     * @return Whether or not the key exists in the tree.
+     */
     bool contains(const std::string& key) const;
+
     std::optional<size_t> get(const std::string& key) const;
     size_t& operator[](const std::string& key);
 
@@ -75,20 +90,29 @@ private:
     static int nodeHeight(AVLNode* node);
 
     // helper for operator<< that recurses through and prints stuff sideways
+    // right-child-first traversal, also adds indentation and such
+    // (basically just turn your head sideways)
     void printTree(std::ostream& os, const AVLNode* node, int indent) const;
+
+    // Helper for contains that traverses the tree (bst order) and checks
+    // if any keys match
+    bool contains(const AVLNode* node, const std::string& key) const;
 
     /* Helper methods for insert */
 
-    // overlaoded insert that does the recursive insert
+    // Recursive helper for insert; performs the actual insertion + does all the balancing
+    // Performs rotations as needed on its way back up the tree
     AVLNode* insert(AVLNode*& node, const std::string& key, size_t value);
 
-    // get a node's balance
+    // compute a node's balance factor as the different between the left and right heights
     int getBalance(const AVLNode* node) const;
 
-    // rotate the tree right
+    // perform a right-rotate around the given node
+    // used on: left-left or left-right imbalances
     AVLTree::AVLNode* rotateRight(AVLNode*& y);
 
-    // rotate the tree left
+    // perform a left-rotate around the given node
+    // used on: right-right or right-left imbalances
     AVLTree::AVLNode* rotateLeft(AVLNode*& x);
 
     /* Helper methods for remove */
