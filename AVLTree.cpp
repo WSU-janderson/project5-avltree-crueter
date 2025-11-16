@@ -1,5 +1,6 @@
 #include "AVLTree.h"
 
+#include <iostream>
 #include <string>
 
 AVLTree::AVLTree()
@@ -48,9 +49,8 @@ std::optional<size_t> AVLTree::get(const std::string& key) const
 
 size_t& AVLTree::operator[](const std::string& key)
 {
-    // TODO
-    static size_t asdfgh = 0;
-    return asdfgh;
+    insert(key, 0);
+    return findNode(root, key)->value;
 }
 
 std::vector<size_t> AVLTree::findRange(const std::string& lowKey, const std::string& highKey) const
@@ -320,3 +320,12 @@ bool AVLTree::remove(AVLNode*& current, KeyType key)
 }
 
 void AVLTree::balanceNode(AVLNode*& node) {}
+
+AVLTree::AVLNode* AVLTree::findNode(AVLNode* node, const std::string& key) const
+{
+    if (!node)
+        return nullptr;
+    if (key == node->key)
+        return node;
+    return key < node->key ? findNode(node->left, key) : findNode(node->right, key);
+}

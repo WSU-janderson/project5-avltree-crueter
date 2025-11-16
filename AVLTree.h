@@ -75,6 +75,12 @@ public:
      */
     std::optional<size_t> get(const std::string& key) const;
 
+    /**
+     * @brief operator [] Get a reference to a key within the tree, or insert a new key
+     * if it does not exist.
+     * @param key The key to access or insert.
+     * @return A reference to the value associated with the key.
+     */
     size_t& operator[](const std::string& key);
 
     /**
@@ -122,6 +128,9 @@ private:
                    const std::string& highKey,
                    std::vector<size_t>& result) const;
 
+    // helper method for operator[] that returns a pointer to a node
+    AVLNode *findNode(AVLNode *node, const std::string &key) const;
+
     /* Helper methods for insert */
 
     // Recursive helper for insert; performs the actual insertion + does all the balancing
@@ -140,10 +149,13 @@ private:
     AVLTree::AVLNode* rotateLeft(AVLNode*& x);
 
     /* Helper methods for remove */
+
     // this overloaded remove will do the recursion to remove the node
     bool remove(AVLNode*& current, KeyType key);
+
     // removeNode contains the logic for actually removing a node based on the numebr of children
     bool removeNode(AVLNode*& current);
+
     // You will implement this, but it is needed for removeNode()
     void balanceNode(AVLNode*& node);
 };

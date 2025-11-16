@@ -69,33 +69,54 @@ int main() {
     containsResult = tree.contains("N"); // false
     cout << containsResult << endl;
 
-   // get
-   optional<int> getResult;
+    // get
+    optional<int> getResult;
 
     cout << endl << "-- GET --" << endl;
-   getResult = tree.get("A"); // 65
-   cout << "A: " << getResult.value() << endl;
+    getResult = tree.get("A"); // 65
+    cout << "A: " << getResult.value() << endl;
 
-   getResult = tree.get("C"); // 67
-   cout << "C: " << getResult.value() << endl;
+    getResult = tree.get("C"); // 67
+    cout << "C: " << getResult.value() << endl;
 
-   getResult = tree.get("Q"); // getResult has no value
-   cout << "Q: " << getResult.has_value() << endl; // print 0
-   cout << endl;
+    getResult = tree.get("Q"); // getResult has no value
+    cout << "Q: " << getResult.has_value() << endl; // print 0
+    cout << endl;
 
-   // findRange
-   cout << endl << "-- FIND RANGE --" << endl;
-   vector<size_t> rangeTest = tree.findRange("D", "W");
-   // 70 68 82 75 77 86
-   for (auto val: rangeTest) {
-       cout << val << " ";
-   }
-   cout << endl << endl;
-//
-//    // operator[]
-//    tree["A"] = 108;
-//    cout << tree << endl;
-//    cout << endl;
+    // findRange
+    cout << endl << "-- FIND RANGE --" << endl;
+    vector<size_t> rangeTest = tree.findRange("D", "W");
+    // 70 68 82 75 77 86
+    for (auto val : rangeTest) {
+        cout << val << " ";
+    }
+    cout << endl << endl;
+
+    // operator[]
+    cout << endl << "-- OPERATOR[] --" << endl;
+    tree["A"] = 108;
+    cout << tree << endl;
+    cout << endl;
+
+    tree["E"] = 110;
+    cout << tree << endl;
+    cout << endl;
+
+/*
+                        {Z: 90}
+                {X: 88}
+                        {V: 86}
+        {R: 82}
+                        {M: 77}
+                {K: 75}
+{F: 70}
+                        {E: 110}
+                {D: 68}
+        {C: 67}
+                {A: 108}
+*/
+    // 110
+    cout << tree.get("E").value() << endl;
 //
 //    // remove
 //    bool removeResult;
