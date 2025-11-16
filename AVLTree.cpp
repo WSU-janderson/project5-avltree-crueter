@@ -4,7 +4,8 @@
 #include <string>
 
 AVLTree::AVLTree()
-    : root(nullptr), treeSize(0)
+    : root(nullptr)
+    , treeSize(0)
 {}
 
 AVLTree::~AVLTree()
@@ -13,13 +14,29 @@ AVLTree::~AVLTree()
 }
 
 AVLTree::AVLTree(const AVLTree& other)
+    : root(nullptr)
+    , treeSize(0)
 {
-    // TODO
+    // deep copy
+    root = copySubtree(other.root);
+    treeSize = other.treeSize;
 }
 
 AVLTree& AVLTree::operator=(const AVLTree& other)
 {
-    // TODO
+    // protect against self assigmnets which would cause the universe to explode otherwise
+    if (this == &other) {
+        return *this;
+    }
+
+    // clear everything
+    clear(root);
+    treeSize = 0;
+
+    // deep copy (identical to the copy constructor)
+    root = copySubtree(other.root);
+    treeSize = other.treeSize;
+
     return *this;
 }
 
@@ -36,7 +53,8 @@ bool AVLTree::remove(const std::string& key)
     if (root != nullptr) {
         remove(root, key);
     }
-    return treeSize < oldSize;}
+    return treeSize < oldSize;
+}
 
 bool AVLTree::contains(const std::string& key) const
 {
@@ -189,6 +207,23 @@ void AVLTree::clear(AVLNode* node)
     clear(node->left);
     clear(node->right);
     delete node;
+}
+
+AVLTree::AVLNode* AVLTree::copySubtree(const AVLNode* node)
+{
+    if (node == nullptr) {
+        return nullptr;
+    }
+
+    // copy ze node
+    AVLNode* newNode = new AVLNode(node->key, node->value);
+    newNode->height = node->height;
+
+    // traverse
+    newNode->left = copySubtree(node->left);
+    newNode->right = copySubtree(node->right);
+
+    return newNode;
 }
 
 /* Insert helpers */
@@ -372,15 +407,12 @@ void AVLTree::balanceNode(AVLNode*& node)
 
     // I forget how I wrote this but... I mean it works right?
     if (balance > 1) {
-        if (node->left &&
-            nodeHeight(node->left->right) > nodeHeight(node->left->left)) {
+        if (node->left && nodeHeight(node->left->right) > nodeHeight(node->left->left)) {
             node->left = rotateLeft(node->left);
         }
         node = rotateRight(node);
-    }
-    else if (balance < -1) {
-        if (node->right &&
-            nodeHeight(node->right->left) > nodeHeight(node->right->right)) {
+    } else if (balance < -1) {
+        if (node->right && nodeHeight(node->right->left) > nodeHeight(node->right->right)) {
             node->right = rotateRight(node->right);
         }
         node = rotateLeft(node);

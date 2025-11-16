@@ -79,7 +79,7 @@ int main()
     getResult = tree.get("C"); // 67
     cout << "C: " << getResult.value() << endl;
 
-    getResult = tree.get("Q");                      // getResult has no value
+    getResult = tree.get("Q"); // getResult has no value
     cout << "Q: " << getResult.has_value() << endl; // print 0
     cout << endl;
 
@@ -148,5 +148,23 @@ int main()
                 {E: 110}
         {D: 68}
 */
+
+    // copy stuff
+    cout << endl << "-- FINAL TREE --" << endl;
+    cout << tree << endl;
+
+    cout << endl << "-- ASSIGNMENT --" << endl;
+    AVLTree assignTree = tree;
+    cout << assignTree << endl;
+
+    cout << endl << "-- COPY CONSTRUCTOR --" << endl;
+    AVLTree copyTree(tree);
+    cout << copyTree << endl;
+
+    // test to see if copyTree just references the same thing
+    copyTree.remove("E");
+    cout << copyTree << endl;
+    cout << tree << endl;
+
     return 0;
 }

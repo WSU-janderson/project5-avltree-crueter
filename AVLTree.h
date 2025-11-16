@@ -142,6 +142,13 @@ private:
     // helper method for operator[] that returns a pointer to a node
     AVLNode *findNode(AVLNode *node, const std::string &key) const;
 
+    // Helper for the destructor that recursively clears and deletes all nodes.
+    void clear(AVLNode* node);
+
+    // Helper for the copy and assignment operators.
+    // Recursively creates a deep copy of each node
+    AVLNode* copySubtree(const AVLNode* node);
+
     /* Helper methods for insert */
 
     // Recursive helper for insert; performs the actual insertion + does all the balancing
