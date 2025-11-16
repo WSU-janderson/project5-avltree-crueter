@@ -77,7 +77,12 @@ public:
 
     size_t& operator[](const std::string& key);
 
-
+    /**
+     * @brief findRange Return all values with keys in the specified range.
+     * @param lowKey The inclusive lower bound of the range.
+     * @param highKey The inclusive upper bound of the range.
+     * @return A vector containing all values within the range (inclusive).
+     */
     std::vector<size_t> findRange(const std::string& lowKey,
                                   const std::string& highKey) const;
 
@@ -109,6 +114,13 @@ private:
     // if any keys match. If they do, return the key, otherwise return nullopt
     // This is operationally equivalent to contains ;)
     std::optional<size_t> get(const AVLNode* node, const std::string& key) const;
+
+    // Helper for findRange that traverses the tree (in-order) and collects
+    // every value that's within the range.
+    void findRange(const AVLNode* node,
+                   const std::string& lowKey,
+                   const std::string& highKey,
+                   std::vector<size_t>& result) const;
 
     /* Helper methods for insert */
 

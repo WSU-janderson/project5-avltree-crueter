@@ -55,9 +55,9 @@ size_t& AVLTree::operator[](const std::string& key)
 
 std::vector<size_t> AVLTree::findRange(const std::string& lowKey, const std::string& highKey) const
 {
-    // TODO
-    return {};
-}
+    std::vector<size_t> result;
+    findRange(root, lowKey, highKey, result);
+    return result;}
 
 std::vector<std::string> AVLTree::keys() const
 {
@@ -147,6 +147,35 @@ std::optional<size_t> AVLTree::get(const AVLNode* node, const string& key) const
         return get(node->left, key);
     } else {
         return get(node->right, key);
+    }
+}
+
+void AVLTree::findRange(const AVLNode* node,
+                        const string& lowKey,
+                        const string& highKey,
+                        std::vector<size_t>& result) const
+{
+    // do I need to keep writing "base case"
+    // I hope we understand this :)
+    if (node == nullptr) {
+        return;
+    }
+
+    // iff the left *might* overlap with the range,
+    // check it!
+    if (lowKey < node->key || lowKey == node->key) {
+        findRange(node->left, lowKey, highKey, result);
+    }
+
+    // check current node
+    if (node->key >= lowKey && node->key <= highKey) {
+        result.push_back(node->value);
+    }
+
+    // iff the right *might* overlap with the range,
+    // check it!
+    if (highKey > node->key || highKey == node->key) {
+        findRange(node->right, lowKey, highKey, result);
     }
 }
 
