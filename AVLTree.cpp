@@ -4,13 +4,12 @@
 #include <string>
 
 AVLTree::AVLTree()
-{
-    // TODO
-}
+    : root(nullptr), treeSize(0)
+{}
 
 AVLTree::~AVLTree()
 {
-    // TODO
+    clear(root);
 }
 
 AVLTree::AVLTree(const AVLTree& other)
@@ -33,9 +32,11 @@ bool AVLTree::insert(const std::string& key, size_t value)
 
 bool AVLTree::remove(const std::string& key)
 {
-    // TODO
-    return false;
-}
+    size_t oldSize = treeSize;
+    if (root != nullptr) {
+        remove(root, key);
+    }
+    return treeSize < oldSize;}
 
 bool AVLTree::contains(const std::string& key) const
 {
@@ -57,7 +58,8 @@ std::vector<size_t> AVLTree::findRange(const std::string& lowKey, const std::str
 {
     std::vector<size_t> result;
     findRange(root, lowKey, highKey, result);
-    return result;}
+    return result;
+}
 
 std::vector<std::string> AVLTree::keys() const
 {
@@ -80,18 +82,21 @@ size_t AVLTree::getBalance() const
     return getBalance(root);
 }
 
-int AVLTree::nodeHeight(AVLNode* node){
+int AVLTree::nodeHeight(AVLNode* node)
+{
     return 1
            + std::max((node->left ? node->left->height : 0),
                       (node->right ? node->right->height : 0));
 }
 
-std::ostream& operator<<(std::ostream& os, const AVLTree& avlTree) {
+std::ostream& operator<<(std::ostream& os, const AVLTree& avlTree)
+{
     avlTree.printTree(os, avlTree.root, 0);
     return os;
 }
 
-void AVLTree::printTree(std::ostream& os, const AVLNode* node, int indent) const {
+void AVLTree::printTree(std::ostream& os, const AVLNode* node, int indent) const
+{
     if (node == nullptr) {
         return;
     }
@@ -100,19 +105,15 @@ void AVLTree::printTree(std::ostream& os, const AVLNode* node, int indent) const
     printTree(os, node->right, indent + 8);
 
     // I hate std::string's overrides
-    os
-        << std::string(indent, ' ')
-        << std::string("{")
-        << node->key
-        << std::string(": ")
-        << std::to_string(node->value)
-        << std::string("}\n");
+    os << std::string(indent, ' ') << std::string("{") << node->key << std::string(": ")
+       << std::to_string(node->value) << std::string("}\n");
 
     // Then left child
     printTree(os, node->left, indent + 8);
 }
 
-bool AVLTree::contains(const AVLNode* node, const string& key) const {
+bool AVLTree::contains(const AVLNode* node, const string& key) const
+{
     // end of tree = does not exist :(
     if (node == nullptr) {
         return false;
@@ -131,7 +132,8 @@ bool AVLTree::contains(const AVLNode* node, const string& key) const {
     }
 }
 
-std::optional<size_t> AVLTree::get(const AVLNode* node, const string& key) const {
+std::optional<size_t> AVLTree::get(const AVLNode* node, const string& key) const
+{
     // end of tree = does not exist :(
     if (node == nullptr) {
         return std::nullopt;
@@ -177,6 +179,16 @@ void AVLTree::findRange(const AVLNode* node,
     if (highKey > node->key || highKey == node->key) {
         findRange(node->right, lowKey, highKey, result);
     }
+}
+
+void AVLTree::clear(AVLNode* node)
+{
+    if (node == nullptr) {
+        return;
+    }
+    clear(node->left);
+    clear(node->right);
+    delete node;
 }
 
 /* Insert helpers */
@@ -232,7 +244,8 @@ AVLTree::AVLNode* AVLTree::insert(AVLNode*& node, const string& key, size_t valu
 
 int AVLTree::getBalance(const AVLNode* node) const
 {
-    if (!node) return 0;
+    if (!node)
+        return 0;
 
     int leftH = node->left ? node->left->height : 0;
     int rightH = node->right ? node->right->height : 0;
@@ -316,10 +329,63 @@ bool AVLTree::removeNode(AVLNode*& current)
 
 bool AVLTree::remove(AVLNode*& current, KeyType key)
 {
-    return false;
+    if (current == nullptr) {
+        return false;
+    }
+
+    bool removed = false;
+
+    // the traversal
+    if (key < current->key) {
+        removed = remove(current->left, key);
+    } else if (key > current->key) {
+        removed = remove(current->right, key);
+    } else {
+        // the deletion :)
+        removed = removeNode(current);
+        if (removed) {
+            treeSize--;
+        }
+        return removed;
+    }
+
+    // IFF we deleted something, trigger a rebalance
+    if (removed) {
+        balanceNode(current);
+    }
+
+    return removed;
 }
 
-void AVLTree::balanceNode(AVLNode*& node) {}
+// TODO: use this in insert? maybe?
+void AVLTree::balanceNode(AVLNode*& node)
+{
+    if (node == nullptr)
+        return;
+
+    // update heights and balanc
+    int leftH = (node->left ? node->left->height : 0);
+    int rightH = (node->right ? node->right->height : 0);
+    node->height = 1 + std::max(leftH, rightH);
+
+    int balance = leftH - rightH;
+
+    // I forget how I wrote this but... I mean it works right?
+    if (balance > 1) {
+        if (node->left &&
+            nodeHeight(node->left->right) > nodeHeight(node->left->left)) {
+            node->left = rotateLeft(node->left);
+        }
+        node = rotateRight(node);
+    }
+    else if (balance < -1) {
+        if (node->right &&
+            nodeHeight(node->right->left) > nodeHeight(node->right->right)) {
+            node->right = rotateRight(node->right);
+        }
+        node = rotateLeft(node);
+    }
+}
 
 AVLTree::AVLNode* AVLTree::findNode(AVLNode* node, const std::string& key) const
 {

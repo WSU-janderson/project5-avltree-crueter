@@ -5,19 +5,19 @@ instead for you to get an idea of how to test the tree
  */
 #include "AVLTree.h"
 #include <iostream>
-#include <string>
 #include <ranges>
+#include <string>
 #include <vector>
 using namespace std;
 
-
-int main() {
+int main()
+{
     AVLTree tree;
     bool insertResult;
     insertResult = tree.insert("F", 'F');
     insertResult = tree.insert("F", 'F'); // false, no duplicates allowed
     insertResult = tree.insert("K", 'K');
-    insertResult = tree.insert("X", 'X');// single rotate left
+    insertResult = tree.insert("X", 'X'); // single rotate left
     cout << endl << endl;
     cout << tree << endl;
 
@@ -43,12 +43,12 @@ int main() {
     cout << tree << endl;
 
     // size and getHeight
-    cout << "tree size: " << tree.size() << endl; // 10
-    cout << "tree height: " << tree.getHeight() << endl; // 3
+    cout << "tree size: " << tree.size() << endl;          // 10
+    cout << "tree height: " << tree.getHeight() << endl;   // 3
     cout << "tree balance: " << tree.getBalance() << endl; // 3
     cout << endl;
 
-/*
+    /*
                 {Z: 90}
         {X: 88}
                 {V: 86}
@@ -79,7 +79,7 @@ int main() {
     getResult = tree.get("C"); // 67
     cout << "C: " << getResult.value() << endl;
 
-    getResult = tree.get("Q"); // getResult has no value
+    getResult = tree.get("Q");                      // getResult has no value
     cout << "Q: " << getResult.has_value() << endl; // print 0
     cout << endl;
 
@@ -102,7 +102,7 @@ int main() {
     cout << tree << endl;
     cout << endl;
 
-/*
+    /*
                         {Z: 90}
                 {X: 88}
                         {V: 86}
@@ -115,28 +115,38 @@ int main() {
         {C: 67}
                 {A: 108}
 */
+
     // 110
     cout << tree.get("E").value() << endl;
-//
-//    // remove
-//    bool removeResult;
-//    removeResult= tree.remove("A"); // "A" is a leaf
-//    cout << endl << endl;
-//    cout << tree << endl;
-//
-//    removeResult = tree.remove("C"); // "C" has one child, single rotate left
-//    cout << endl << endl;
-//    cout << tree << endl;
-//
-//    removeResult = tree.remove("F"); // "F" has two children
-//    cout << endl << endl;
-//    cout << tree << endl;
-//
-//    removeResult = tree.remove("V");
-//    removeResult = tree.remove("X");
-//    removeResult = tree.remove("Z"); // double rotate right
-//    cout << endl << endl;
-//    cout << tree << endl;
 
+    // remove
+    cout << endl << "-- REMOVE --" << endl;
+
+    bool removeResult;
+    removeResult = tree.remove("A"); // "A" is a leaf
+    cout << endl << endl;
+    cout << tree << endl;
+
+    removeResult = tree.remove("C"); // "C" has one child, single rotate left
+    cout << endl << endl;
+    cout << tree << endl;
+
+    removeResult = tree.remove("F"); // "F" has two children
+    cout << endl << endl;
+    cout << tree << endl;
+
+    removeResult = tree.remove("V");
+    removeResult = tree.remove("X");
+    removeResult = tree.remove("Z"); // double rotate right
+    cout << endl << endl;
+    cout << tree << endl;
+
+    /*
+        {R: 82}
+                {M: 77}
+{K: 75}
+                {E: 110}
+        {D: 68}
+*/
     return 0;
 }

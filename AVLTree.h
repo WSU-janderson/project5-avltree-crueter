@@ -42,8 +42,14 @@ protected:
     };
 
 public:
+    /**
+     * @brief AVLTree Create an empty AVL tree.
+     */
     AVLTree();
 
+    /**
+     * Destruct the AVL tree and clear all memory associated with it.
+     */
     ~AVLTree();
 
     AVLTree(const AVLTree& other);
@@ -59,6 +65,11 @@ public:
      */
     bool insert(const std::string& key, size_t value);
 
+    /**
+     * @brief remove Delete a key from the tree if it exists.
+     * @param key The key to remove.
+     * @return Whether or not the key was found and thus removed.
+     */
     bool remove(const std::string& key);
 
     /**
