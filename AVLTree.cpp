@@ -81,8 +81,9 @@ std::vector<size_t> AVLTree::findRange(const std::string& lowKey, const std::str
 
 std::vector<std::string> AVLTree::keys() const
 {
-    // TODO
-    return {};
+    std::vector<std::string> result;
+    keys(root, result);
+    return result;
 }
 
 size_t AVLTree::size() const
@@ -207,6 +208,21 @@ void AVLTree::clear(AVLNode* node)
     clear(node->left);
     clear(node->right);
     delete node;
+}
+
+void AVLTree::keys(const AVLNode* node, std::vector<string>& result) const {
+    if (node == nullptr) {
+        return;
+    }
+
+    // Left subtree
+    keys(node->left, result);
+
+    // current node
+    result.push_back(node->key);
+
+    // Right subtree
+    keys(node->right, result);
 }
 
 AVLTree::AVLNode* AVLTree::copySubtree(const AVLNode* node)

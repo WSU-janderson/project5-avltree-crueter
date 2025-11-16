@@ -7,3 +7,6 @@ add_executable(AVLTreeDebug
         AVLTreeDebug.cpp
         AVLTree.cpp
         AVLTree.h)
+
+target_compile_options(AVLTreeDebug PRIVATE -fsanitize=address)
+target_link_options(AVLTreeDebug PRIVATE -fsanitize=address)

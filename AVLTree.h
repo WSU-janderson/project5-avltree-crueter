@@ -52,8 +52,17 @@ public:
      */
     ~AVLTree();
 
+    /**
+     * @brief AVLTree Create a deep copy of another AVL tree.
+     * @param other The tree to copy data from.
+     */
     AVLTree(const AVLTree& other);
 
+    /**
+     * @brief operator = Copy the data from another AVL tree to this one.
+     * @param other The tree to copy data from.
+     * @return A reference to myself.
+     */
     AVLTree& operator=(const AVLTree& other);
 
     /**
@@ -103,10 +112,28 @@ public:
     std::vector<size_t> findRange(const std::string& lowKey,
                                   const std::string& highKey) const;
 
+    /**
+     * @brief keys Get all the keys contained within this tree.
+     * @return A vector containing all keys within this tree.
+     */
     std::vector<std::string> keys() const;
 
+    /**
+     * @brief size Get the number of nodes within this tree.
+     * @return The nubmer of nodes in the tree.
+     */
     size_t size() const;
+
+    /**
+     * @brief getHeight Get the current height of this tree.
+     * @return The height of the root node.
+     */
     size_t getHeight() const;
+
+    /**
+     * @brief getBalance Get the current balance factor of this tree.
+     * @return The balance factor of the root node.
+     */
     size_t getBalance() const;
 
     friend std::ostream& operator<<(std::ostream& os, const AVLTree& avlTree);
@@ -140,7 +167,7 @@ private:
                    std::vector<size_t>& result) const;
 
     // helper method for operator[] that returns a pointer to a node
-    AVLNode *findNode(AVLNode *node, const std::string &key) const;
+    AVLNode* findNode(AVLNode* node, const std::string& key) const;
 
     // Helper for the destructor that recursively clears and deletes all nodes.
     void clear(AVLNode* node);
@@ -148,6 +175,9 @@ private:
     // Helper for the copy and assignment operators.
     // Recursively creates a deep copy of each node
     AVLNode* copySubtree(const AVLNode* node);
+
+    // Helper for keys that traverses the tree and collects all valid keys.
+    void keys(const AVLNode* node, std::vector<std::string>& result) const;
 
     /* Helper methods for insert */
 

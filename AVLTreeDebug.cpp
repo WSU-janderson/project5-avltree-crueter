@@ -119,6 +119,16 @@ int main()
     // 110
     cout << tree.get("E").value() << endl;
 
+    // keys
+    cout << endl << "-- KEYS --" << endl;
+
+    vector<std::string> keysTest = tree.keys();
+    // 70 68 82 75 77 86
+    for (const std::string &val : keysTest) {
+        cout << val << " ";
+    }
+    cout << endl << endl;
+
     // remove
     cout << endl << "-- REMOVE --" << endl;
 
