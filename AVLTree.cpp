@@ -43,8 +43,7 @@ bool AVLTree::contains(const std::string& key) const
 
 std::optional<size_t> AVLTree::get(const std::string& key) const
 {
-    // TODO
-    return std::nullopt;
+    return get(root, key);
 }
 
 size_t& AVLTree::operator[](const std::string& key)
@@ -129,6 +128,25 @@ bool AVLTree::contains(const AVLNode* node, const string& key) const {
         return contains(node->left, key);
     } else {
         return contains(node->right, key);
+    }
+}
+
+std::optional<size_t> AVLTree::get(const AVLNode* node, const string& key) const {
+    // end of tree = does not exist :(
+    if (node == nullptr) {
+        return std::nullopt;
+    }
+
+    // key found. :)
+    if (key == node->key) {
+        return node->value;
+    }
+
+    // traversal
+    if (key < node->key) {
+        return get(node->left, key);
+    } else {
+        return get(node->right, key);
     }
 }
 

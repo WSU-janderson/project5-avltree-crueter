@@ -68,8 +68,15 @@ public:
      */
     bool contains(const std::string& key) const;
 
+    /**
+     * @brief get Retrieve the value associated with a key.
+     * @param key The key to search for.
+     * @return An optional containing the value if found, or std::nullopt if not.
+     */
     std::optional<size_t> get(const std::string& key) const;
+
     size_t& operator[](const std::string& key);
+
 
     std::vector<size_t> findRange(const std::string& lowKey,
                                   const std::string& highKey) const;
@@ -97,6 +104,11 @@ private:
     // Helper for contains that traverses the tree (bst order) and checks
     // if any keys match
     bool contains(const AVLNode* node, const std::string& key) const;
+
+    // Helper for get that traverses the tree (bst order) and checks
+    // if any keys match. If they do, return the key, otherwise return nullopt
+    // This is operationally equivalent to contains ;)
+    std::optional<size_t> get(const AVLNode* node, const std::string& key) const;
 
     /* Helper methods for insert */
 

@@ -60,26 +60,28 @@ int main() {
                 {C: 67}
                         {A: 65}
 */
-//
+
     // contains
+    cout << "-- CONTAINS --" << endl;
     bool containsResult;
     containsResult = tree.contains("A"); // true
     cout << containsResult << endl;
     containsResult = tree.contains("N"); // false
     cout << containsResult << endl;
-//
-//    // get
-//    optional<int> getResult;
-//
-//    getResult = tree.get("A"); // 65
-//    cout << "A: " << getResult.value() << endl;
-//
-//    getResult = tree.get("C"); // 67
-//    cout << "C: " << getResult.value() << endl;
-//
-//    getResult = tree.get("Q"); // getResult has no value
-//    cout << "Q: " << getResult.has_value() << endl; // print 0
-//    cout << endl;
+
+   // get
+   optional<int> getResult;
+
+    cout << endl << "-- GET --" << endl;
+   getResult = tree.get("A"); // 65
+   cout << "A: " << getResult.value() << endl;
+
+   getResult = tree.get("C"); // 67
+   cout << "C: " << getResult.value() << endl;
+
+   getResult = tree.get("Q"); // getResult has no value
+   cout << "Q: " << getResult.has_value() << endl; // print 0
+   cout << endl;
 //
 //    // findRange
 //    vector<int> rangeTest = tree.findRange("D", "W");
