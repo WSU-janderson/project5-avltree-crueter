@@ -176,5 +176,20 @@ int main()
     cout << copyTree << endl;
     cout << tree << endl;
 
+    // final sanity check- insert 100k nodes and check height, size, etc.
+    cout << endl << "-- BIG TREE --" << endl;
+
+    AVLTree newTree;
+    // BONUS: do 100 million and watch your CPU suffer >:)
+    for (size_t i = 0; i < 100000; ++i) {
+        std::string key = std::to_string(i);
+        newTree.insert(key, i);
+    }
+
+    cout << "tree size: " << newTree.size() << endl;
+    cout << "tree height: " << newTree.getHeight() << endl;
+    cout << "tree balance: " << newTree.getBalance() << endl;
+    cout << endl;
+
     return 0;
 }

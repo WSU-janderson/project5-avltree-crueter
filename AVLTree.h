@@ -134,7 +134,7 @@ public:
      * @brief getBalance Get the current balance factor of this tree.
      * @return The balance factor of the root node.
      */
-    size_t getBalance() const;
+    int getBalance() const;
 
     friend std::ostream& operator<<(std::ostream& os, const AVLTree& avlTree);
 

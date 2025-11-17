@@ -96,13 +96,16 @@ size_t AVLTree::getHeight() const
     return root ? root->height : 0;
 }
 
-size_t AVLTree::getBalance() const
+int AVLTree::getBalance() const
 {
     return getBalance(root);
 }
 
 int AVLTree::nodeHeight(AVLNode* node)
 {
+    if (!node)
+        return 0;
+
     return 1
            + std::max((node->left ? node->left->height : 0),
                       (node->right ? node->right->height : 0));
@@ -210,7 +213,8 @@ void AVLTree::clear(AVLNode* node)
     delete node;
 }
 
-void AVLTree::keys(const AVLNode* node, std::vector<string>& result) const {
+void AVLTree::keys(const AVLNode* node, std::vector<string>& result) const
+{
     if (node == nullptr) {
         return;
     }
@@ -258,9 +262,9 @@ AVLTree::AVLNode* AVLTree::insert(AVLNode*& node, const string& key, size_t valu
 
     // the recursion
     if (key < node->key) {
-        node->left = insert(node->left, key, value);
+        node->left = this->insert(node->left, key, value);
     } else {
-        node->right = insert(node->right, key, value);
+        node->right = this->insert(node->right, key, value);
     }
 
     // update height
@@ -271,21 +275,17 @@ AVLTree::AVLNode* AVLTree::insert(AVLNode*& node, const string& key, size_t valu
 
     // rotate left/right depending on which direction we're balanced
     // and where the current key "would" go
-    if (balance > 1 && key < node->left->key) {
+    if (balance > 1) {
+        // Left heavy
+        if (getBalance(node->left) < 0) {
+            node->left = rotateLeft(node->left);
+        }
         return rotateRight(node);
-    }
-
-    if (balance < -1 && key > node->right->key) {
-        return rotateLeft(node);
-    }
-
-    if (balance > 1 && key > node->left->key) {
-        node->left = rotateLeft(node->left);
-        return rotateRight(node);
-    }
-
-    if (balance < -1 && key < node->right->key) {
-        node->right = rotateRight(node->right);
+    } else if (balance < -1) {
+        // Right heavy
+        if (getBalance(node->right) > 0) {
+            node->right = rotateRight(node->right);
+        }
         return rotateLeft(node);
     }
 
@@ -305,6 +305,10 @@ int AVLTree::getBalance(const AVLNode* node) const
 
 AVLTree::AVLNode* AVLTree::rotateRight(AVLNode*& y)
 {
+    // do NOT rotate if left child is null
+    if (!y || !y->left)
+        return y;
+
     AVLNode* x = y->left;
     AVLNode* T2 = x->right;
 
@@ -312,14 +316,17 @@ AVLTree::AVLNode* AVLTree::rotateRight(AVLNode*& y)
     y->left = T2;
 
     // update heights
-    y->height = nodeHeight(y);
-    x->height = nodeHeight(x);
-
+    y->height = 1 + std::max(nodeHeight(y->left), nodeHeight(y->right));
+    x->height = 1 + std::max(nodeHeight(x->left), nodeHeight(x->right));
     return x;
 }
 
 AVLTree::AVLNode* AVLTree::rotateLeft(AVLNode*& x)
 {
+    // do NOT rotate if right child is null
+    if (!x || !x->right)
+        return x;
+
     AVLNode* y = x->right;
     AVLNode* T2 = y->left;
 
@@ -327,9 +334,8 @@ AVLTree::AVLNode* AVLTree::rotateLeft(AVLNode*& x)
     x->right = T2;
 
     // update heights
-    y->height = nodeHeight(y);
-    x->height = nodeHeight(x);
-
+    x->height = 1 + std::max(nodeHeight(x->left), nodeHeight(x->right));
+    y->height = 1 + std::max(nodeHeight(y->left), nodeHeight(y->right));
     return y;
 }
 
