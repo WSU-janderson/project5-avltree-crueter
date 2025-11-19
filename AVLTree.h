@@ -1,5 +1,8 @@
 /**
- * AVLTree.h
+ * Carson Rueter
+ *
+ * This is a self-balancing AVL Tree with string keys and size_t values.
+ * This AVL tree supports common operations including insertion, removal, accessors, copying, and printing.
  */
 
 #ifndef AVLTREE_H
